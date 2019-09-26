@@ -12,6 +12,10 @@ interface State {
 }
 
 export class Hello extends React.Component<Props, State> {
+	public state: any;
+	public setState: any;
+	public props: any;
+
   constructor(props: Props) {
     super(props);
 

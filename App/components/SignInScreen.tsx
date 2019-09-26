@@ -3,19 +3,22 @@ import React, {Component } from 'react';
 import { Text,View, Button,TouchableOpacity,StyleSheet,TextInput} from 'react-native';
 import Fonts from '../Theme/Fonts'
 import {LoginChange} from '../actions'
+import { AppState } from '../reducers'
 import { connect } from 'react-redux';
+import {loginChangeState} from '../actions/types'
+
 // import { stat } from 'fs';
 
 
+interface AppProps {
+    usernamePassword : loginChangeState
+    LoginChange : typeof LoginChange
+  }
+
+class SignInScreen extends React.Component<AppProps> {
 
 
-class SignInScreen extends Component {
-
-  
-    constructor(props) {
-        super(props);
-
-      }
+    
 
     render() {
         return(
@@ -25,12 +28,9 @@ class SignInScreen extends Component {
     shadowOffset: {width: 3, height: 3 },
     shadowOpacity: .5,
     borderRadius: 5,paddingTop:20,paddingLeft:20,paddingRight:20,paddingBottom:20,marginHorizontal:10}} >
-            <TextInput placeholder="Username"  value={this.props.username} onChangeText={temp => this.props.LoginChange({ props: 'username', value: temp })} style={styles.userName}></TextInput>
-            <TextInput secureTextEntry={true} placeholder="Password" value={this.props.password} onChangeText={temp => this.props.LoginChange({ props: 'password', value: temp })} style={styles.userName}></TextInput>
-            <TouchableOpacity
-          style={styles.loginScreenButton}
-
-          underlayColor='#fff'>
+            <TextInput placeholder="Username"  value={this.props.usernamePassword.username} onChangeText={temp => this.props.LoginChange('username',temp)} style={styles.userName}></TextInput>
+            <TextInput secureTextEntry={true} placeholder="Password" value={this.props.usernamePassword.password} onChangeText={temp => this.props.LoginChange('password',temp )} style={styles.userName}></TextInput>
+            <TouchableOpacity style={styles.loginScreenButton} onPress={()=>console.log("Button")} >
           <Text style={styles.loginText}>SignIn</Text>
  </TouchableOpacity>
  <TouchableOpacity style={{marginTop:20}}>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
           marginBottom:10
           
       },forgotPassword:{
-            ...Fonts.style.small,
+            // Object.assign(Fonts.size.small),
             color:'#c0c0c0',
             alignSelf:'flex-end'
             
@@ -103,14 +103,19 @@ const styles = StyleSheet.create({
 //         }
 //     }
 // }
-const mapStateToProps = ({ LoginResponse }) => {
-    const { username, password } = LoginResponse;
-    return {
-        username,
-        password,
-    };
+// const mapStateToProps = () AppState ) => {
+//     const { username, password } = LoginResponse;
+//     return {
+//         username,
+//         password,
+//     };
 
-  };
+//   };
+
+  const mapStateToProps = (state: AppState) => ({
+        usernamePassword : state.LoginResponse
+
+  })
 
 
 
